@@ -10,11 +10,14 @@
 <body>
   <div class="container">
     <div class="header">
-      <img src="icons/icon48.png" alt="Page Assistant" class="logo">
+      <div class="logo-container">
+        <img src="icons/icon48.png" alt="Page Assistant" class="logo">
+      </div>
       <h1>Page Assistant</h1>
     </div>
     <div class="content">
-      <p>Your intelligent companion powered by Groq</p>
+      <p class="tagline">Your intelligent companion powered by Groq</p>
+      
       <div id="api-key-section">
         <label for="api-key">Groq API Key:</label>
         <div class="api-key-input">
@@ -23,8 +26,29 @@
         </div>
         <p class="note">Your API key is stored locally and never sent to our servers.</p>
       </div>
+      
       <button id="toggle-assistant" class="primary-button">Open Assistant</button>
-      <p class="note">Click the floating button on any page to start a conversation with the assistant.</p>
+      <p class="tip">Ask questions about any web page and get instant answers powered by Groq's LLM technology.</p>
+      
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-text">
+            <h3>Zero Latency</h3>
+            <p>Get answers instantly with Groq's ultra-fast inference</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-text">
+            <h3>Content Analysis</h3>
+            <p>Ask questions about any web page's content</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p class="version">Version 0.1.0</p>
     </div>
   </div>
   <script src="popup.js"></script>

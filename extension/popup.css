@@ -1,65 +1,116 @@
 
+:root {
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --border: #e2e8f0;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --radius: 0.5rem;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  width: 320px;
+  width: 360px;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fa;
-  color: #1a1a1a;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 .container {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
 }
 
 .header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 16px;
+  padding: 24px 20px 16px;
+  background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1));
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
 }
 
 .logo {
-  width: 32px;
-  height: 32px;
-  margin-right: 12px;
+  width: 40px;
+  height: 40px;
 }
 
 h1 {
-  font-size: 18px;
+  font-size: 22px;
   margin: 0;
+  font-weight: 600;
+  background: linear-gradient(to right, var(--primary), var(--primary-hover));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+  font-size: 15px;
+  color: var(--muted-foreground);
+  text-align: center;
+  margin: 4px 0 20px;
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  padding: 20px;
+  flex: 1;
 }
 
 #api-key-section {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
 }
 
 .api-key-input {
   display: flex;
-  margin-top: 8px;
+  margin-bottom: 6px;
 }
 
 input {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 button {
-  padding: 8px 16px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 4px;
-  background-color: #e2e8f0;
+  border-radius: var(--radius);
+  background-color: var(--muted);
+  color: var(--muted-foreground);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -67,23 +118,92 @@ button {
 }
 
 button:hover {
-  background-color: #cbd5e1;
+  background-color: var(--border);
 }
 
 .primary-button {
-  background-color: #6366f1;
+  background-color: var(--primary);
   color: white;
-  padding: 12px;
+  padding: 12px 16px;
   width: 100%;
   font-weight: 600;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
 }
 
 .primary-button:hover {
-  background-color: #4f46e5;
+  background-color: var(--primary-hover);
+}
+
+.primary-button:disabled {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+  cursor: not-allowed;
 }
 
 .note {
   font-size: 12px;
-  color: #64748b;
-  margin: 4px 0 0 0;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.tip {
+  font-size: 14px;
+  color: var(--muted-foreground);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background-color: white;
+  border: 1px solid var(--border);
+}
+
+.feature-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(139, 92, 246, 0.1);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.feature-text h3 {
+  font-size: 14px;
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.feature-text p {
+  font-size: 12px;
+  margin: 0;
+  color: var(--muted-foreground);
+}
+
+.footer {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+}
+
+.version {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 0;
 }

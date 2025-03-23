@@ -1,6 +1,7 @@
 
 let isAssistantOpen = false;
 let assistantContainer = null;
+let isProcessing = false;
 
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -91,7 +92,7 @@ function handleSendMessage(e) {
   const inputElement = assistantContainer.querySelector('.page-assistant-input');
   const userMessage = inputElement.value.trim();
   
-  if (!userMessage) return;
+  if (!userMessage || isProcessing) return;
   
   // Add user message to chat
   addMessage('user', userMessage);
@@ -100,21 +101,32 @@ function handleSendMessage(e) {
   // Extract page content
   const pageContent = extractPageContent();
   
+  // Show loading indicator
+  addLoadingMessage();
+  isProcessing = true;
+  
   // Call API (using chrome.runtime.sendMessage to background script)
   chrome.runtime.sendMessage({
     action: 'processQuestion',
     question: userMessage,
     pageContent: pageContent
   }, function(response) {
+    isProcessing = false;
+    
+    // Remove loading indicator
+    const loadingIndicator = assistantContainer.querySelector('.page-assistant-loading');
+    if (loadingIndicator) {
+      loadingIndicator.remove();
+    }
+    
     if (response && response.answer) {
       addMessage('assistant', response.answer);
+    } else if (response && response.error) {
+      addMessage('assistant', `Error: ${response.error}`);
     } else {
       addMessage('assistant', 'Sorry, I encountered an error processing your question. Please try again.');
     }
   });
-  
-  // Show loading indicator
-  addLoadingMessage();
 }
 
 // Function to add a message to the chat
@@ -164,7 +176,11 @@ function extractPageContent() {
   const metaDescription = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
   // Get headings
   const headings = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).map(h => h.textContent).join(' ');
+  // Get title
+  const title = document.title;
+  // Get URL
+  const url = window.location.href;
   
   // Combine all content
-  return `Page Title: ${document.title}\nMeta Description: ${metaDescription}\nHeadings: ${headings}\nContent: ${pageText}`;
+  return `URL: ${url}\nPage Title: ${title}\nMeta Description: ${metaDescription}\nHeadings: ${headings}\nContent: ${pageText}`;
 }

@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SendHorizontal, X, CornerDownLeft, Sparkles } from 'lucide-react';
+import { Send, X, Bot, Sparkles, LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Message, { MessageProps } from '@/components/Message';
@@ -27,7 +27,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { processQuestion } = useGroqApi();
+  const { processQuestion, apiKey } = useGroqApi();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -48,6 +48,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     e.preventDefault();
     
     if (!input.trim() || isLoading) return;
+    if (!apiKey) {
+      toast({
+        title: "API Key Missing",
+        description: "Please set your Groq API key in the extension popup",
+        variant: "destructive",
+      });
+      return;
+    }
     
     const userMessage = { type: 'user' as const, content: input };
     setMessages(prev => [...prev, userMessage]);
@@ -55,17 +63,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setIsLoading(true);
     
     try {
-      // For the prototype, we'll simulate a response
-      // In the real extension, we would call the Groq API
-      
-      setTimeout(() => {
-        const response = processQuestion(input, pageContent);
-        setMessages(prev => [...prev, { 
-          type: 'assistant', 
-          content: response
-        }]);
-        setIsLoading(false);
-      }, 1000);
+      const response = await processQuestion(input, pageContent);
+      setMessages(prev => [...prev, { 
+        type: 'assistant', 
+        content: response
+      }]);
     } catch (error) {
       console.error('Error processing question:', error);
       toast({
@@ -73,6 +75,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         description: "Failed to get a response. Please try again.",
         variant: "destructive",
       });
+    } finally {
       setIsLoading(false);
     }
   };
@@ -94,15 +97,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           className={cn(
             'fixed bottom-6 right-6 z-50',
-            'w-[380px] h-[520px] rounded-2xl overflow-hidden',
-            'glass-morphism flex flex-col shadow-2xl'
+            'w-[420px] h-[580px] rounded-2xl overflow-hidden',
+            'bg-background/80 backdrop-blur-xl shadow-2xl',
+            'border border-border/40 flex flex-col'
           )}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-border">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-border/30">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" />
-              <h3 className="font-medium">Page Assistant</h3>
+              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Sparkles className="h-4 w-4 text-primary" />
+              </div>
+              <h3 className="font-medium text-lg">Page Assistant</h3>
             </div>
             <Button
               variant="ghost"
@@ -116,7 +122,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
           
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-2">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message, index) => (
               <Message
                 key={index}
@@ -128,13 +134,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             
             {isLoading && (
               <div className="flex justify-start px-4 py-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-white">
-                  <span className="block h-3 w-3 animate-pulse-subtle rounded-full bg-white/80"></span>
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
                 </div>
-                <div className="ml-3 flex space-x-1">
-                  <div className="h-2 w-2 rounded-full bg-muted-foreground/30 animate-pulse-subtle"></div>
-                  <div className="h-2 w-2 rounded-full bg-muted-foreground/30 animate-pulse-subtle delay-150"></div>
-                  <div className="h-2 w-2 rounded-full bg-muted-foreground/30 animate-pulse-subtle delay-300"></div>
+                <div className="ml-3 max-w-[80%] rounded-2xl bg-secondary p-4 text-sm">
+                  <div className="flex space-x-2">
+                    <span className="h-2 w-2 rounded-full bg-primary/50 animate-pulse"></span>
+                    <span className="h-2 w-2 rounded-full bg-primary/50 animate-pulse delay-150"></span>
+                    <span className="h-2 w-2 rounded-full bg-primary/50 animate-pulse delay-300"></span>
+                  </div>
                 </div>
               </div>
             )}
@@ -143,27 +151,27 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
           
           {/* Input */}
-          <form onSubmit={handleSubmit} className="border-t border-border p-4">
+          <form onSubmit={handleSubmit} className="border-t border-border/30 p-4">
             <div className="relative flex items-center">
               <Input
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask a question about this page..."
-                className="pr-10 focus-visible:ring-1 focus-visible:ring-primary/30"
+                placeholder="Ask about the page content..."
+                className="pr-12 rounded-full py-6 bg-background/50 focus:bg-background focus-visible:ring-1 focus-visible:ring-primary/50 border-border/50"
                 disabled={isLoading}
               />
               <Button
                 type="submit"
                 size="icon"
                 disabled={!input.trim() || isLoading}
-                className="absolute right-1 h-8 w-8 rounded-full"
+                className="absolute right-2 h-8 w-8 rounded-full bg-primary hover:bg-primary/90"
               >
                 {isLoading ? (
-                  <span className="h-4 w-4 animate-spin-slow rounded-full border-2 border-primary border-t-transparent" />
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
                 ) : (
-                  input.trim() ? <SendHorizontal className="h-4 w-4" /> : <CornerDownLeft className="h-4 w-4" />
+                  <Send className="h-4 w-4" />
                 )}
                 <span className="sr-only">Send</span>
               </Button>
