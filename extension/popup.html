@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="icons/icon48.png" alt="Page Assistant" class="logo">
+      <h1>Page Assistant</h1>
+    </div>
+    <div class="content">
+      <p>Your intelligent companion powered by Groq</p>
+      <div id="api-key-section">
+        <label for="api-key">Groq API Key:</label>
+        <div class="api-key-input">
+          <input type="password" id="api-key" placeholder="sk-xxxxxxxxxxxxx">
+          <button id="save-api-key">Save</button>
+        </div>
+        <p class="note">Your API key is stored locally and never sent to our servers.</p>
+      </div>
+      <button id="toggle-assistant" class="primary-button">Open Assistant</button>
+      <p class="note">Click the floating button on any page to start a conversation with the assistant.</p>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
