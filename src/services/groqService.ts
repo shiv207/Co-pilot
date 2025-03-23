@@ -29,7 +29,7 @@ export const useGroqApi = () => {
 
     try {
       const prompt = `
-        You are a helpful assistant that answers questions about webpage content.
+        You are a helpful AI assistant that provides context-aware, accurate answers about webpage content.
         
         You have been given the following content from a webpage:
         ---
@@ -37,6 +37,14 @@ export const useGroqApi = () => {
         ---
         
         Please answer the following question about this content. If the content doesn't contain information relevant to the question, say so honestly.
+        
+        IMPORTANT GUIDELINES:
+        1. Always reference the content when answering.
+        2. Use phrases like "According to this page," "The page states," or "Based on the content" to make clear you're referencing the current page.
+        3. If answering a general knowledge question, clarify whether your answer is from the page or general knowledge.
+        4. Keep answers concise but informative.
+        5. Quote relevant sections when appropriate using quotation marks.
+        6. If the question asks for opinions or predictions, note that you're providing information based on what's written, not your own opinion.
         
         QUESTION: ${question}
       `;
@@ -52,7 +60,7 @@ export const useGroqApi = () => {
           messages: [
             {
               role: 'system',
-              content: 'You are a helpful, accurate, and concise assistant that analyzes web page content and answers questions based on it.'
+              content: 'You are a helpful, accurate, and context-aware assistant that analyzes web page content and answers questions based on the content. Always indicate when your responses are based on the page content by using phrases like "According to this page," "The content shows," etc.'
             },
             { 
               role: 'user', 

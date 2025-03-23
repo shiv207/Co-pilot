@@ -1,14 +1,14 @@
 
 :root {
-  --primary: #8b5cf6;
-  --primary-hover: #7c3aed;
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --border: #e2e8f0;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
+  --primary: #785aff;
+  --primary-hover: #8b6aff;
+  --background: #121218;
+  --foreground: #f8f8fc;
+  --border: #2a2a35;
+  --muted: #1a1a25;
+  --muted-foreground: #a0a0b0;
   --radius: 0.5rem;
-  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -31,16 +31,26 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 24px 20px 16px;
-  background: linear-gradient(to right, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1));
+  background: linear-gradient(to right, rgba(120, 90, 255, 0.2), rgba(100, 70, 200, 0.1));
   border-bottom: 1px solid var(--border);
 }
 
 .logo-container {
-  background-color: white;
+  background-color: rgba(120, 90, 255, 0.1);
   border-radius: 12px;
   padding: 8px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow), 0 0 15px rgba(120, 90, 255, 0.3);
   margin-bottom: 12px;
+  animation: glow 3s infinite ease-in-out;
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(120, 90, 255, 0.3), 0 0 10px rgba(120, 90, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(120, 90, 255, 0.5), 0 0 25px rgba(120, 90, 255, 0.3);
+  }
 }
 
 .logo {
@@ -70,7 +80,7 @@ h1 {
 }
 
 #api-key-section {
-  background-color: white;
+  background-color: var(--muted);
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
@@ -83,6 +93,7 @@ label {
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 6px;
+  color: var(--primary);
 }
 
 .api-key-input {
@@ -97,12 +108,14 @@ input {
   border-radius: var(--radius);
   font-size: 14px;
   transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: rgba(30, 30, 40, 0.5);
+  color: var(--foreground);
 }
 
 input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 0 2px rgba(120, 90, 255, 0.2);
 }
 
 button {
@@ -118,7 +131,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--border);
+  background-color: rgba(50, 50, 60, 0.8);
 }
 
 .primary-button {
@@ -128,18 +141,24 @@ button:hover {
   width: 100%;
   font-weight: 600;
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow), 0 0 10px rgba(120, 90, 255, 0.3);
   margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
 }
 
 .primary-button:hover {
   background-color: var(--primary-hover);
+  box-shadow: var(--shadow), 0 0 15px rgba(120, 90, 255, 0.5);
+  transform: translateY(-1px);
 }
 
 .primary-button:disabled {
   background-color: var(--muted);
   color: var(--muted-foreground);
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .note {
@@ -167,8 +186,15 @@ button:hover {
   gap: 12px;
   padding: 12px;
   border-radius: var(--radius);
-  background-color: white;
+  background-color: var(--muted);
   border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.feature:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 5px rgba(120, 90, 255, 0.2);
+  border-color: rgba(120, 90, 255, 0.3);
 }
 
 .feature-icon {
@@ -178,7 +204,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(139, 92, 246, 0.1);
+  background-color: rgba(120, 90, 255, 0.15);
   border-radius: 8px;
   flex-shrink: 0;
 }
@@ -187,6 +213,7 @@ button:hover {
   font-size: 14px;
   margin: 0 0 4px;
   font-weight: 600;
+  color: var(--foreground);
 }
 
 .feature-text p {

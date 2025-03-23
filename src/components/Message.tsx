@@ -26,24 +26,24 @@ const Message: React.FC<MessageProps> = ({ type, content, isLast = false }) => {
       )}
     >
       {!isUser && (
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/95 text-primary-foreground">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/80 text-primary-foreground shadow-[0_0_10px_rgba(120,90,255,0.3)]">
           <Bot className="h-4 w-4" />
         </div>
       )}
       
       <div
         className={cn(
-          'relative max-w-[85%] rounded-2xl px-4 py-3 text-sm',
+          'relative max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-md',
           isUser
-            ? 'bg-primary text-primary-foreground'
-            : 'bg-secondary/75 text-secondary-foreground'
+            ? 'bg-primary/90 text-primary-foreground border border-white/10'
+            : 'bg-secondary/80 text-secondary-foreground border border-white/5 backdrop-blur-sm'
         )}
       >
         {content}
       </div>
       
       {isUser && (
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted/70 text-muted-foreground border border-white/5">
           <User className="h-4 w-4" />
         </div>
       )}

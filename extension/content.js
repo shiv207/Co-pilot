@@ -40,10 +40,14 @@ function openAssistant() {
       </div>
       <button class="page-assistant-close">×</button>
     </div>
+    <div class="page-assistant-context">
+      <span class="page-assistant-context-icon">🌐</span>
+      <span>Providing answers with context from this page</span>
+    </div>
     <div class="page-assistant-messages">
       <div class="page-assistant-message assistant">
         <div class="page-assistant-avatar">AI</div>
-        <div class="page-assistant-bubble">Hi there! How can I help you with this page?</div>
+        <div class="page-assistant-bubble">Hi there! How can I help you understand this page? I'll provide answers based on the content you're viewing.</div>
       </div>
     </div>
     <form class="page-assistant-input-form">
