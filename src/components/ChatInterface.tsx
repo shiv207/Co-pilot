@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, X, Bot, Sparkles, LoaderCircle, Globe } from 'lucide-react';
+import { Send, X, Bot, Sparkles, LoaderCircle, Globe, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Message, { MessageProps } from '@/components/Message';
@@ -98,37 +98,43 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           className={cn(
             'fixed bottom-6 right-6 z-50',
             'w-[420px] h-[580px] rounded-2xl overflow-hidden',
-            'neo-glass shadow-2xl',
-            'border border-white/5 flex flex-col'
+            'bg-black shadow-2xl',
+            'border border-white/10 flex flex-col'
           )}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-black/20">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center animate-pulse-subtle">
-                <Sparkles className="h-4 w-4 text-primary" />
+              <div className="flex items-center">
+                <span className="font-medium text-lg">Grok</span>
+                <span className="ml-2 text-xs bg-white/10 text-white/70 px-2 py-0.5 rounded-full">beta</span>
               </div>
-              <h3 className="font-medium text-lg">Page Assistant</h3>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="h-8 w-8 rounded-full hover:bg-white/5"
-            >
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 rounded-full hover:bg-white/10"
+              >
+                <Edit className="h-4 w-4" />
+                <span className="sr-only">Edit</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={onClose}
+                className="h-8 w-8 rounded-full hover:bg-white/10"
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </Button>
+            </div>
           </div>
           
-          {/* Context Indicator */}
-          <div className="flex items-center gap-2 px-6 py-2 bg-secondary/50 border-b border-white/5">
-            <Globe className="h-4 w-4 text-primary/80" />
-            <p className="text-xs text-muted-foreground">Providing answers with context from this page</p>
-          </div>
+          {/* Context Indicator - Removed to match Grok UI */}
           
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-background/10">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message, index) => (
               <Message
                 key={index}
@@ -140,14 +146,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             
             {isLoading && (
               <div className="flex justify-start px-4 py-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/80 text-primary-foreground shadow-[0_0_10px_rgba(120,90,255,0.3)]">
-                  <LoaderCircle className="h-4 w-4 animate-spin" />
-                </div>
-                <div className="ml-3 max-w-[80%] rounded-2xl bg-secondary/80 p-4 text-sm border border-white/5 backdrop-blur-sm shadow-md">
+                <div className="ml-3 max-w-[80%] rounded-2xl bg-zinc-800/80 p-4 text-sm">
                   <div className="flex space-x-2">
-                    <span className="h-2 w-2 rounded-full bg-primary/50 animate-pulse"></span>
-                    <span className="h-2 w-2 rounded-full bg-primary/50 animate-pulse delay-150"></span>
-                    <span className="h-2 w-2 rounded-full bg-primary/50 animate-pulse delay-300"></span>
+                    <span className="h-2 w-2 rounded-full bg-white/50 animate-pulse"></span>
+                    <span className="h-2 w-2 rounded-full bg-white/50 animate-pulse delay-150"></span>
+                    <span className="h-2 w-2 rounded-full bg-white/50 animate-pulse delay-300"></span>
                   </div>
                 </div>
               </div>
@@ -157,7 +160,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
           
           {/* Input */}
-          <form onSubmit={handleSubmit} className="border-t border-white/5 p-4 bg-black/30">
+          <form onSubmit={handleSubmit} className="border-t border-white/10 p-4">
             <div className="relative flex items-center">
               <Input
                 ref={inputRef}
@@ -165,14 +168,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about the page content..."
-                className="pr-12 rounded-full py-6 bg-muted/30 focus:bg-muted/50 focus-visible:ring-1 focus-visible:ring-primary/50 border-white/5"
+                className="pr-12 rounded-full py-6 bg-zinc-800/80 focus:bg-zinc-700/80 focus-visible:ring-0 border-0"
                 disabled={isLoading}
               />
               <Button
                 type="submit"
                 size="icon"
                 disabled={!input.trim() || isLoading}
-                className="absolute right-2 h-8 w-8 rounded-full bg-primary hover:bg-primary/90 animate-pulse-subtle"
+                className="absolute right-2 h-8 w-8 rounded-full bg-white text-black hover:bg-white/90"
               >
                 {isLoading ? (
                   <LoaderCircle className="h-4 w-4 animate-spin" />

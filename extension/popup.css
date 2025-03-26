@@ -63,7 +63,8 @@ h1 {
   margin: 0;
   font-weight: 600;
   background: linear-gradient(to right, var(--primary), var(--primary-hover));
-  -webkit-background-clip: text;
+  -webkit-background-clip: text; /* For Safari */
+  background-clip: text; /* Standard property */
   -webkit-text-fill-color: transparent;
 }
 
@@ -86,6 +87,14 @@ h1 {
   box-shadow: var(--shadow);
   margin-bottom: 20px;
   border: 1px solid var(--border);
+}
+
+.popup {
+  background-color: #333; /* Dark background */
+  background-clip: padding-box; /* Ensures background is clipped to the padding box */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Padding around the content */
+  color: #fff; /* Text color */
 }
 
 label {

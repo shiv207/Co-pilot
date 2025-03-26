@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Bot } from 'lucide-react';
+import { User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export type MessageType = 'user' | 'assistant';
@@ -26,24 +26,24 @@ const Message: React.FC<MessageProps> = ({ type, content, isLast = false }) => {
       )}
     >
       {!isUser && (
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/80 text-primary-foreground shadow-[0_0_10px_rgba(120,90,255,0.3)]">
-          <Bot className="h-4 w-4" />
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black border border-white/10 overflow-hidden">
+          <img src="/grok-avatar.svg" alt="Grok" className="h-8 w-8" />
         </div>
       )}
       
       <div
         className={cn(
-          'relative max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-md',
+          'relative max-w-[85%] rounded-2xl px-4 py-3 text-sm',
           isUser
-            ? 'bg-primary/90 text-primary-foreground border border-white/10'
-            : 'bg-secondary/80 text-secondary-foreground border border-white/5 backdrop-blur-sm'
+            ? 'bg-white text-black'
+            : 'bg-zinc-800 text-white'
         )}
       >
         {content}
       </div>
       
       {isUser && (
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted/70 text-muted-foreground border border-white/5">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-black">
           <User className="h-4 w-4" />
         </div>
       )}
