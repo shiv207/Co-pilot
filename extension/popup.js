@@ -1,13 +1,23 @@
-
 document.addEventListener('DOMContentLoaded', function() {
   const apiKeyInput = document.getElementById('api-key');
   const saveApiKeyButton = document.getElementById('save-api-key');
   const toggleAssistantButton = document.getElementById('toggle-assistant');
   
-  // Load saved API key
-  chrome.storage.local.get(['groq_api_key'], function(result) {
-    if (result.groq_api_key) {
-      apiKeyInput.value = result.groq_api_key;
+  // Function to get API key from environment or storage
+  async function getApiKey() {
+    // First try to get from environment variable
+    const apiKey = process.env.GROQ_API_KEY;
+    if (apiKey) return apiKey;
+    
+    // If not in environment, try to get from storage
+    const storageData = await chrome.storage.local.get(['groq_api_key']);
+    return storageData.groq_api_key;
+  }
+
+  // Check if API key exists in environment or storage
+  getApiKey().then(apiKey => {
+    if (apiKey) {
+      apiKeyInput.value = apiKey;
       apiKeyInput.type = 'password';
       toggleAssistantButton.disabled = false;
       toggleAssistantButton.textContent = 'Open Assistant';
@@ -33,26 +43,38 @@ document.addEventListener('DOMContentLoaded', function() {
   
   apiKeyInput.addEventListener('dblclick', toggleShowPassword);
   
-  // Save API key
-  saveApiKeyButton.addEventListener('click', function() {
+  // Save API key to both environment and storage
+  saveApiKeyButton.addEventListener('click', async function() {
     const apiKey = apiKeyInput.value.trim();
     if (apiKey) {
-      chrome.storage.local.set({ 'groq_api_key': apiKey }, function() {
-        toggleAssistantButton.disabled = false;
-        toggleAssistantButton.textContent = 'Open Assistant';
-        
-        // Add success indication and visual feedback
-        saveApiKeyButton.textContent = 'Saved!';
-        saveApiKeyButton.classList.add('success');
-        
-        setTimeout(() => {
-          saveApiKeyButton.textContent = 'Save';
-          saveApiKeyButton.classList.remove('success');
-        }, 2000);
-        
-        apiKeyInput.type = 'password';
-        showToast('API key saved successfully!');
-      });
+      // Save to environment (if supported)
+      if (typeof process !== 'undefined' && process.env) {
+        process.env.GROQ_API_KEY = apiKey;
+      }
+      // Save to storage
+      await chrome.storage.local.set({ 'groq_api_key': apiKey });
+      
+      // Update UI
+      const saveStatus = document.getElementById('save-status');
+      saveStatus.textContent = 'API key saved!';
+      setTimeout(() => {
+        saveStatus.textContent = '';
+      }, 2000);
+      
+      toggleAssistantButton.disabled = false;
+      toggleAssistantButton.textContent = 'Open Assistant';
+      
+      // Add success indication and visual feedback
+      saveApiKeyButton.textContent = 'Saved!';
+      saveApiKeyButton.classList.add('success');
+      
+      setTimeout(() => {
+        saveApiKeyButton.textContent = 'Save';
+        saveApiKeyButton.classList.remove('success');
+      }, 2000);
+      
+      apiKeyInput.type = 'password';
+      showToast('API key saved successfully!');
     } else {
       showToast('Please enter a valid API key', 'error');
     }

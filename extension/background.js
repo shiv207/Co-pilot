@@ -98,6 +98,17 @@ async function extractYouTubeVideoInfo(url) {
   }
 }
 
+// Function to get API key from environment or storage
+async function getApiKey() {
+  // First try to get from environment variable
+  const apiKey = process.env.GROQ_API_KEY;
+  if (apiKey) return apiKey;
+  
+  // If not in environment, try to get from storage
+  const storageData = await chrome.storage.local.get(['groq_api_key']);
+  return storageData.groq_api_key;
+}
+
 /**
  * Processes a user's question using the Groq API, providing page context.
  * @param {string} question - The user's question.
@@ -113,9 +124,7 @@ async function processQuestionWithGroq(question, context) {
   console.log("Processing question with context for URL:", context.url);
 
   try {
-    const storageData = await chrome.storage.local.get(['groq_api_key']);
-    const apiKey = storageData.groq_api_key;
-
+    const apiKey = await getApiKey();
     if (!apiKey) {
       return `# Error: API Key Missing
 
@@ -134,6 +143,7 @@ Please set your Groq API key in the extension's popup or options page to use thi
 
 Personality & Instructions:
 - Direct, factual, and professional tone.
+- Dont start by saying "The provided context" or any verison of this.
 - Provide detailed, comprehensive answers using *only* the provided context. Do not hallucinate or make assumptions beyond the context.
 - If the context is insufficient to answer, state that clearly.
 - Structure answers logically using Markdown (headings, lists, bold text).
@@ -223,9 +233,7 @@ async function analyzePageContext(context) {
     console.log("Analyzing context for URL:", context.url);
 
     try {
-        const storageData = await chrome.storage.local.get(['groq_api_key']);
-        const apiKey = storageData.groq_api_key;
-
+        const apiKey = await getApiKey();
         if (!apiKey) {
             return `# Error: API Key Missing
 
