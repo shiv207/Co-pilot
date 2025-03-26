@@ -3,18 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const saveApiKeyButton = document.getElementById('save-api-key');
   const toggleAssistantButton = document.getElementById('toggle-assistant');
   
-  // Function to get API key from environment or storage
+  // Function to get API key from Chrome storage
   async function getApiKey() {
-    // First try to get from environment variable
-    const apiKey = process.env.GROQ_API_KEY;
-    if (apiKey) return apiKey;
-    
-    // If not in environment, try to get from storage
     const storageData = await chrome.storage.local.get(['groq_api_key']);
     return storageData.groq_api_key;
   }
 
-  // Check if API key exists in environment or storage
+  // Check if API key exists in storage
   getApiKey().then(apiKey => {
     if (apiKey) {
       apiKeyInput.value = apiKey;
@@ -43,14 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   apiKeyInput.addEventListener('dblclick', toggleShowPassword);
   
-  // Save API key to both environment and storage
+  // Save API key to Chrome storage
   saveApiKeyButton.addEventListener('click', async function() {
     const apiKey = apiKeyInput.value.trim();
     if (apiKey) {
-      // Save to environment (if supported)
-      if (typeof process !== 'undefined' && process.env) {
-        process.env.GROQ_API_KEY = apiKey;
-      }
       // Save to storage
       await chrome.storage.local.set({ 'groq_api_key': apiKey });
       
