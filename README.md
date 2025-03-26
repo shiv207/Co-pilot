@@ -2,18 +2,7 @@
 
 ## 📌 Tags
 
-- #BrowserExtension
-- #AIAssistant
-- #WebDevelopment
-- #CodeAssistant
-- #ChromeExtension
-- #FirefoxExtension
-- #GrokInterface
-- #AIIntegration
-- #WebDevelopmentTools
-- #CodingAssistant
-- #DeveloperTools
-- #BrowserTools
+#BrowserExtension #AIAssistant #WebDevelopment #CodeAssistant #ChromeExtension #FirefoxExtension #GrokInterface #AIIntegration #WebDevelopmentTools #CodingAssistant #DeveloperTools #BrowserTools
 
 A powerful browser extension that brings AI-powered coding assistance directly to your web browser, inspired by the Grok interface.
 
