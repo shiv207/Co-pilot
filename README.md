@@ -1,8 +1,11 @@
 # Web Co-Pilot
 
-Tags
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![DeepSeek](https://img.shields.io/badge/Model-DeepSeek%20R1-green.svg)](https://groq.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/shiv207/Co-pilot/releases)
 
-#BrowserExtension #AIAssistant #WebDevelopment #CodeAssistant #ChromeExtension #FirefoxExtension #GrokInterface #AIIntegration #WebDevelopmentTools #CodingAssistant #DeveloperTools #BrowserTools
+**Tags:** `#browser-extension` `#ai-assistant` `#web-development` `#code-assistant` `#chrome-extension` `#firefox-extension` `#grok-interface` `#ai-integration` `#web-development-tools` `#coding-assistant` `#developer-tools` `#browser-tools`
 
 A powerful browser extension that brings AI-powered coding assistance directly to your web browser, inspired by the Grok interface.
 
