@@ -1,7 +1,7 @@
 # Web Co-Pilot
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
-[![DeepSeek](https://img.shields.io/badge/Model-DeepSeek%20R1-green.svg)](https://groq.com)
+[![Gemma2](https://img.shields.io/badge/Model-DeepSeek%20R1-green.svg)](https://groq.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/shiv207/Co-pilot/releases)
 
