@@ -1,6 +1,6 @@
 # Web Co-Pilot
 
-## 📌 Tags
+Tags
 
 #BrowserExtension #AIAssistant #WebDevelopment #CodeAssistant #ChromeExtension #FirefoxExtension #GrokInterface #AIIntegration #WebDevelopmentTools #CodingAssistant #DeveloperTools #BrowserTools
 
